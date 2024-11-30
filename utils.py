@@ -26,7 +26,6 @@ class CharReader:
         return self
 
     def __next__(self) -> str:
-        print(self.idx, f"'{self.buffer}'", self.i)
         if self.i < len(self.buffer):
             ch = self.buffer[self.i]
             self.i += 1

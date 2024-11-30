@@ -171,8 +171,7 @@ class FSM:
         return graph
 
     def δ(self, q: Q, σ: Σ) -> Q:
-        print("δ", q.name, σ, q.get_next_one(σ).name)
         return q.get_next_one(σ)
 
     def λ(self, q: Q, _σ: Σ) -> str:
-        return f"λ: {q.name}"
+        return f"{q.name}"

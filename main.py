@@ -30,7 +30,7 @@ def main():
         print(id, ":", q.name)
 
     for qᵢ, oᵢ in stepper(fsm, fsm.initial):
-        print(qᵢ, oᵢ)
+        print(oᵢ)
 
 
 if __name__ == "__main__":
