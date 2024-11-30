@@ -3,6 +3,9 @@ from typing import Self, cast
 import re
 
 
+type Σ = str
+
+
 class UnexpectedSymbol(Exception):
     pass
 
@@ -16,19 +19,41 @@ marmaid_line_regex = re.compile(
 )
 
 
+class Q:
+    """
+    Class for representing a state in finite-state machine
+    """
+
+    # Name of the state
+    name: str
+
+    # Dictionary where key is the character of the transition and value is the next state for given transition
+    nbs: dict[str, Q]
+
+    def __init__(self, name: str):
+        self.name = name
+        self.nbs = {}
+
+    def add_transition(self, nb: Q, character: str) -> None:
+        self.nbs[character] = nb
+
+    def get_next_one(self, character: str) -> Q:
+        return self.nbs[character]
+
+
 class FSM:
     """
     Class for representing finite-state machines
     """
 
     # Dictionary where ids are keys and values are state objects
-    states: dict[str, State]
+    states: dict[str, Q]
 
     # Set of characters that represents alphabet of the finite-state machine
     alphabet: set[str]
 
-    # Ids of initial state
-    initial: str
+    # Initial state
+    initial: Q | None
 
     # Ids of terminal states
     terminals: set[str]
@@ -39,7 +64,7 @@ class FSM:
     def __init__(self, alphabet: set[str]):
         self.states = {}
         self.alphabet = alphabet
-        self.initial = ""
+        self.initial = None
         self.terminals = set()
         self.name_index = 0
 
@@ -61,7 +86,7 @@ class FSM:
         if name is None:
             name = self.generate_state_name()
 
-        new_state = State(name)
+        new_state = Q(name)
         self.states[id] = new_state
 
     def add_transition(
@@ -89,7 +114,7 @@ class FSM:
         if initial_id not in self.states:
             self.add_state(initial_id, initial_name)
 
-        self.initial = initial_id
+        self.initial = self.states[initial_id]
 
     def add_terminal(self, terminal_id: str, terminal_name: str | None = None) -> None:
         if terminal_id not in self.states:
@@ -145,30 +170,9 @@ class FSM:
 
         return graph
 
-    def δ(self, Q: State, character: str) -> State:
-        return Q.get_next_one(character)
-    
-    def λ(self, Q: State, character: str) -> str:
-        return f"{Q.name}"
+    def δ(self, q: Q, σ: Σ) -> Q:
+        print("δ", q.name, σ, q.get_next_one(σ).name)
+        return q.get_next_one(σ)
 
-
-class State:
-    """
-    Class for representing a state in finite-state machine
-    """
-
-    # Name of the state
-    name: str
-
-    # Dictionary where key is the character of the transition and value is the next state for given transition
-    nbs: dict[str, State] = {}
-
-    def __init__(self, name: str, id: str):
-        self.name = name
-        self.name = id
-
-    def add_transition(self, nb: State, character: str) -> None:
-        self.nbs[character] = nb
-
-    def get_next_one(self, character: str) -> State:
-        return self.nbs[character]
+    def λ(self, q: Q, _σ: Σ) -> str:
+        return f"λ: {q.name}"
