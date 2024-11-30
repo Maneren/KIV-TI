@@ -4,10 +4,6 @@ from typing import Iterator
 from utils import CharReader, Σ, O, scan
 
 
-class UnexpectedSymbol(Exception):
-    pass
-
-
 class Q(Enum):
     E = "E"
     Odd = "Odd"
