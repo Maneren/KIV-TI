@@ -10,11 +10,11 @@ from utils import (
 )
 
 
-def stepper(A: FSM, q0: Q) -> Iterator[tuple[Q, O]]:
+def stepper(A: FSM, q0: Q, reader: CharReader) -> Iterator[tuple[Q, O]]:
     # states = scan(q0, A.δ, CharReader())
     # outputs = map(A.λ, states, CharReader())
     # return zip(states, outputs)
-    reader = CharReader()
+    # reader = CharReader()
     while True:
         char = next(reader)
         q0 = A.δ(q0, char)
@@ -22,15 +22,18 @@ def stepper(A: FSM, q0: Q) -> Iterator[tuple[Q, O]]:
 
 
 def main():
-    with open("docs.md", "r") as f:
+    with open("docs.md", mode="r", encoding="utf-8") as f:
         diagram = get_diagram_from_markdown(f.read())
         fsm = FSM.from_marmaid(diagram)
 
     for id, q in fsm.states.items():
         print(id, ":", q.name)
 
-    for qᵢ, oᵢ in stepper(fsm, fsm.initial):
-        print(oᵢ)
+    print(f" {fsm.initial.name}: ", end="", flush=True)
+
+    reader = CharReader()
+    for qᵢ, oᵢ in stepper(fsm, fsm.initial, reader):
+        print(f"\r{oᵢ}: {reader.buffer}", end="", flush=True)
 
 
 if __name__ == "__main__":

@@ -73,7 +73,7 @@ class FSM:
 
         prefix_val, suffix_val = divmod(index, 26)
         # Generating prefix
-        prefix = chr(ord("A") + prefix_val - 1) if prefix_val >= 1 else ""
+        prefix = chr(ord("A") + prefix_val - 1) if prefix_val >= 1 else " "
         # Generating suffix
         suffix: str = chr(ord("A") + suffix_val)
 
