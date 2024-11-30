@@ -145,6 +145,12 @@ class FSM:
 
         return graph
 
+    def δ(self, Q: State, character: str) -> State:
+        return Q.get_next_one(character)
+    
+    def λ(self, Q: State, character: str) -> str:
+        return f"{Q.name}"
+
 
 class State:
     """
@@ -157,8 +163,12 @@ class State:
     # Dictionary where key is the character of the transition and value is the next state for given transition
     nbs: dict[str, State] = {}
 
-    def __init__(self, name: str):
+    def __init__(self, name: str, id: str):
         self.name = name
+        self.name = id
 
-    def add_transition(self, nb: State, symbol: str) -> None:
-        self.nbs[symbol] = nb
+    def add_transition(self, nb: State, character: str) -> None:
+        self.nbs[character] = nb
+
+    def get_next_one(self, character: str) -> State:
+        return self.nbs[character]
