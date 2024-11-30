@@ -111,10 +111,13 @@ stateDiagram-v2
 ## Validní všechno (post konzultační)
 
 ```mermaid
+%% active
 stateDiagram-v2
+  %% Σ 0,1,2,3,4,5,6,7,8,9
+
   %% age
 
-  [*] --> e
+  [*] --> e % e
   e --> y0 : 0
   e --> y1 : 1
   e --> y2 : 2
@@ -228,7 +231,7 @@ stateDiagram-v2
   young♂n --> young♂nn : 0,1,2,3,4,5,6,7,8,9
   young♂nn --> young♂nnn : 0,1,2,3,4,5,6,7,8,9
   young♂nnn --> young♂ : 0,1,2,3,4,5,6,7,8,9
-  young♂ --> [*]
+  young♂ --> [*] % M1
 
   %% young female number
 
@@ -236,7 +239,7 @@ stateDiagram-v2
   young♀n --> young♀nn : 0,1,2,3,4,5,6,7,8,9
   young♀nn --> young♀nnn : 0,1,2,3,4,5,6,7,8,9
   young♀nnn --> young♀ : 0,1,2,3,4,5,6,7,8,9
-  young♀ --> [*]
+  young♀ --> [*] % Ž1
 
   %% middle male number
 
@@ -244,7 +247,7 @@ stateDiagram-v2
   middle♂n --> middle♂nn : 0,1,2,3,4,5,6,7,8,9
   middle♂nn --> middle♂nnn : 0,1,2,3,4,5,6,7,8,9
   middle♂nnn --> middle♂ : 0,1,2,3,4,5,6,7,8,9
-  middle♂ --> [*]
+  middle♂ --> [*] % M2
 
   %% middle female number
 
@@ -252,7 +255,7 @@ stateDiagram-v2
   middle♀n --> middle♀nn : 0,1,2,3,4,5,6,7,8,9
   middle♀nn --> middle♀nnn : 0,1,2,3,4,5,6,7,8,9
   middle♀nnn --> middle♀ : 0,1,2,3,4,5,6,7,8,9
-  middle♀ --> [*]
+  middle♀ --> [*] % Ž2
 
   %% old male number
 
@@ -260,7 +263,7 @@ stateDiagram-v2
   old♂n --> old♂nn : 0,1,2,3,4,5,6,7,8,9
   old♂nn --> old♂nnn : 0,1,2,3,4,5,6,7,8,9
   old♂nnn --> old♂ : 0,1,2,3,4,5,6,7,8,9
-  old♂ --> [*]
+  old♂ --> [*] % M3
 
   %% old female number
 
@@ -268,5 +271,5 @@ stateDiagram-v2
   old♀n --> old♀nn : 0,1,2,3,4,5,6,7,8,9
   old♀nn --> old♀nnn : 0,1,2,3,4,5,6,7,8,9
   old♀nnn --> old♀ : 0,1,2,3,4,5,6,7,8,9
-  old♀ --> [*]
+  old♀ --> [*] % Ž3
 ```

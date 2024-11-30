@@ -1,5 +1,5 @@
-from typing import Callable, Iterable, Iterator, Self
-
+from typing import Callable, Iterable, Iterator, LiteralString, Self, cast
+import re
 
 try:
     import msvcrt
@@ -50,11 +50,18 @@ def read_char() -> str:
     return ch
 
 
-def scan[T, U](
-    initial: U, f: Callable[[U, T], U], iterable: Iterable[T]
-) -> Iterator[U]:
+def scan[T, U](initial: U, f: Callable[[U, T], U], iterable: Iterable[T]) -> Iterator[U]:
     state = initial
     yield from (state := f(state, x) for x in iterable)
+
+
+mermaid_diagram_regex = re.compile(
+    r"```mermaid\n\s*%% active\s*\n(.*)```", flags=re.RegexFlag.S
+)
+
+
+def get_diagram_from_markdown(markdown: str) -> str:
+    return mermaid_diagram_regex.search(markdown).group(1)
 
 
 type O = str

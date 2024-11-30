@@ -1,7 +1,14 @@
 from enum import Enum
 from typing import Iterator
+from FSM import FSM, UnexpectedSymbol
 
-from utils import CharReader, Σ, O, scan
+from utils import (
+    CharReader,
+    Σ,
+    O,
+    scan,
+    get_diagram_from_markdown,
+)
 
 
 class Q(Enum):
@@ -26,7 +33,7 @@ def δ(q: Q, σ: Σ) -> Q:
         case (Q.Even, "1"):
             return Q.Odd
 
-    raise UnexpectedSymbol()
+    raise UnexpectedSymbol
 
 
 def λ(q: Q, σ: Σ) -> O:
@@ -55,8 +62,14 @@ def stepper(q0: Q) -> Iterator[tuple[Q, O]]:
 
 
 def main():
-    for qi, oi in stepper(Q.E):
-        print(qi, oi)
+    with open("docs.md", "r") as f:
+        diagram = get_diagram_from_markdown(f.read())
+        fsm = FSM.from_marmaid(diagram)
+
+    print(fsm)
+
+    for qᵢ, oᵢ in stepper(Q.E):
+        print(qᵢ, oᵢ)
 
 
 if __name__ == "__main__":
