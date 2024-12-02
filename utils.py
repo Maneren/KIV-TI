@@ -14,13 +14,13 @@ except ImportError:
 
 
 class CharReader:
-    buffer = ""
-    instance = 0
+    buffer: list[str] = []
+    instance: list[int] = [0]
 
     def __init__(self):
         self.i = 0
-        self.idx = self.instance
-        self.instance += 1
+        self.idx = self.instance[0]
+        self.instance[0] += 1
 
     def __iter__(self) -> Self:
         return self
@@ -31,7 +31,7 @@ class CharReader:
             self.i += 1
             return ch
         else:
-            self.buffer += read_char()
+            self.buffer.append(read_char())
             return next(self)
 
 

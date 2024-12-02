@@ -38,6 +38,8 @@ class Q:
         self.nbs[character] = nb
 
     def get_next_one(self, character: str) -> Q:
+        if character not in self.nbs:
+            raise UnexpectedSymbol
         return self.nbs[character]
 
 
