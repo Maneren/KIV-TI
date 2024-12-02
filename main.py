@@ -14,7 +14,7 @@ def stepper(A: FSM, q0: Q) -> Iterator[tuple[Q, O]]:
     states = scan(q0, A.δ, CharReader())
     [states, λ_states] = tee(states, 2)
     outputs = map(A.λ, λ_states, CharReader())
-    yield from zip(states, outputs)
+    return zip(states, outputs)
 
 
 def main():
@@ -32,8 +32,9 @@ def main():
     try:
         for qᵢ, oᵢ in stepper(fsm, fsm.initial):
             print(f"\r{oᵢ}: {''.join(reader.buffer)}", end="", flush=True)
-    except UnexpectedSymbol:
-        print("Unexpected symbol encountered")
+    except UnexpectedSymbol as e:
+        print(f"\r{oᵢ}: {''.join(reader.buffer)}", flush=True)
+        print(f"Unexpected symbol encountered: {e.char}")
 
 
 if __name__ == "__main__":

@@ -7,14 +7,16 @@ type Σ = str
 
 
 class UnexpectedSymbol(Exception):
-    pass
+    def __init__(self, char: str):
+        super().__init__()
+        self.char = char
 
 
 class InvalidMermaid(Exception):
     pass
 
 
-marmaid_line_regex = re.compile(
+mermaid_line_regex = re.compile(
     r"(?P<start>[^\s]+) --> (?P<end>[^\s]+) (?:: (?P<char>[^\s]+)|% (?P<name>[^\s]+))"
 )
 
@@ -39,7 +41,7 @@ class Q:
 
     def get_next_one(self, character: str) -> Q:
         if character not in self.nbs:
-            raise UnexpectedSymbol
+            raise UnexpectedSymbol(character)
         return self.nbs[character]
 
 
@@ -98,7 +100,7 @@ class FSM:
         characters: list[str],
     ) -> None:
         if any(character not in self.alphabet for character in characters):
-            raise UnexpectedSymbol
+            raise InvalidMermaid
 
         if start_id not in self.states:
             self.add_state(start_id)
@@ -150,7 +152,7 @@ class FSM:
         graph = FSM(Σ)
 
         for edge in edges:
-            match = marmaid_line_regex.match(edge)
+            match = mermaid_line_regex.match(edge)
 
             start = match.group("start")
             end = match.group("end")
