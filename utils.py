@@ -1,4 +1,4 @@
-from typing import Callable, Iterable, Iterator, LiteralString, Self, cast
+from typing import Callable, Iterable, Iterator, TypeAlias, TypeVar
 import re
 
 try:
@@ -22,7 +22,7 @@ class CharReader:
         self.idx = self.instance[0]
         self.instance[0] += 1
 
-    def __iter__(self) -> Self:
+    def __iter__(self) -> "CharReader":
         return self
 
     def __next__(self) -> str:
@@ -49,9 +49,11 @@ def read_char() -> str:
     return ch
 
 
-def scan[T, U](
-    initial: U, f: Callable[[U, T], U], iterable: Iterable[T]
-) -> Iterator[U]:
+T: TypeVar = TypeVar("T")
+U: TypeVar = TypeVar("U")
+
+
+def scan(initial: U, f: Callable[[U, T], U], iterable: Iterable[T]) -> Iterator[U]:
     state = initial
     yield from (state := f(state, x) for x in iterable)
 
@@ -65,4 +67,4 @@ def get_diagram_from_markdown(markdown: str) -> str:
     return mermaid_diagram_regex.search(markdown).group(1)
 
 
-type O = str
+O: TypeAlias = str

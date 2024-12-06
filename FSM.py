@@ -1,9 +1,9 @@
 from __future__ import annotations
-from typing import Self, cast
+from typing import TypeAlias, cast
 import re
 
 
-type Σ = str
+Σ: TypeAlias = str
 
 
 class UnexpectedSymbol(Exception):
@@ -127,7 +127,7 @@ class FSM:
         self.terminals.add(terminal_id)
 
     @staticmethod
-    def from_marmaid(mermaid_diagram: str) -> Self:
+    def from_marmaid(mermaid_diagram: str) -> "FSM":
         lines = list(map(str.strip, mermaid_diagram.split("\n")))
         assert lines[0] == "stateDiagram-v2"
 
