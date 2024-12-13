@@ -117,14 +117,18 @@ class FSM:
     def set_initial(self, initial_id: str, initial_name: str | None = None) -> None:
         if initial_id not in self.states:
             self.add_state(initial_id, initial_name)
+        elif initial_name is not None:
+            self.states[initial_id].name = initial_name
 
         self.initial = self.states[initial_id]
 
     def add_terminal(self, terminal_id: str, terminal_name: str | None = None) -> None:
         if terminal_id not in self.states:
             self.add_state(terminal_id, terminal_name)
+        elif terminal_name is not None:
+            self.states[terminal_id].name = terminal_name
 
-        self.terminals.add(terminal_id)
+        self.terminals.add(terminal_name or terminal_id)
 
     @staticmethod
     def from_marmaid(mermaid_diagram: str) -> "FSM":
