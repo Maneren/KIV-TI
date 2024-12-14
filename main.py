@@ -35,6 +35,8 @@ def main():
 
     reader = CharReader()
 
+    qᵢ = fsm.initial
+    oᵢ = fsm.initial.name
     try:
         for qᵢ, oᵢ in stepper(fsm, fsm.initial):
             print(f"\r{oᵢ}: {''.join(reader.buffer)}", end="", flush=True)
@@ -44,7 +46,11 @@ def main():
             exit(128)
     except UnexpectedSymbol as e:
         print(f"\r{oᵢ}: {''.join(reader.buffer)}", flush=True)
-        print(f"\nUnexpected symbol encountered: '{e.char}' ({ord(e.char):x})")
+
+        if e.char in fsm.alphabet:
+            print(f"\nReached a non-terminal absorbing state")
+        else:       
+            print(f"\nUnexpected symbol encountered: '{e.char}' ({ord(e.char):x})")
 
 
 if __name__ == "__main__":
